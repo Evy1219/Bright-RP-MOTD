@@ -1,0 +1,2 @@
+# Bright-RP-MOTD
+MOTD
