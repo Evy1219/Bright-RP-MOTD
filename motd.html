@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bright RP - MOTD</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0d0d1a;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1a1a3e 0%, #0d0d1a 100%);
+    border-bottom: 2px solid #f0c040;
+    padding: 28px 40px 20px;
+    text-align: center;
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #f0c040, transparent);
+  }
+
+  .server-name {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #f0c040;
+    text-shadow: 0 0 30px rgba(240,192,64,0.4);
+    text-transform: uppercase;
+  }
+
+  .server-name span {
+    color: #ffffff;
+  }
+
+  .tagline {
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .owner-badge {
+    display: inline-block;
+    margin-top: 10px;
+    background: rgba(240,192,64,0.12);
+    border: 1px solid rgba(240,192,64,0.35);
+    color: #f0c040;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 24px 40px;
+  }
+
+  .welcome-box {
+    background: linear-gradient(135deg, rgba(240,192,64,0.08), rgba(240,192,64,0.03));
+    border: 1px solid rgba(240,192,64,0.25);
+    border-left: 3px solid #f0c040;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #c8c8c8;
+  }
+
+  .welcome-box strong {
+    color: #f0c040;
+  }
+
+  .sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .section {
+    background: #111125;
+    border: 1px solid #1e1e3a;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .section.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .section-header {
+    background: #16162e;
+    border-bottom: 1px solid #1e1e3a;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .icon-red { background: rgba(220,60,60,0.2); color: #e05555; }
+  .icon-gold { background: rgba(240,192,64,0.15); color: #f0c040; }
+  .icon-blue { background: rgba(80,130,220,0.15); color: #6699ee; }
+  .icon-green { background: rgba(60,180,100,0.15); color: #55cc77; }
+  .icon-purple { background: rgba(150,80,220,0.15); color: #aa66dd; }
+  .icon-orange { background: rgba(220,140,40,0.15); color: #dd9944; }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #d0d0d0;
+  }
+
+  .section-body {
+    padding: 14px 18px;
+  }
+
+  .rule {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+    line-height: 1.5;
+    color: #b0b0c8;
+    align-items: flex-start;
+  }
+
+  .rule:last-child { border-bottom: none; }
+
+  .rule-num {
+    color: #f0c040;
+    font-weight: 700;
+    font-size: 11px;
+    min-width: 20px;
+    margin-top: 1px;
+  }
+
+  .rule-text strong {
+    color: #e0e0e0;
+  }
+
+  .punishment {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .p-warn { background: rgba(240,192,64,0.15); color: #f0c040; border: 1px solid rgba(240,192,64,0.3); }
+  .p-kick { background: rgba(220,140,40,0.15); color: #dd9944; border: 1px solid rgba(220,140,40,0.3); }
+  .p-ban { background: rgba(220,60,60,0.15); color: #e05555; border: 1px solid rgba(220,60,60,0.3); }
+  .p-perm { background: rgba(150,30,30,0.2); color: #cc3333; border: 1px solid rgba(150,30,30,0.4); }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 14px 18px;
+  }
+
+  .info-item {
+    background: #0d0d1e;
+    border: 1px solid #1a1a30;
+    border-radius: 7px;
+    padding: 10px 14px;
+  }
+
+  .info-label {
+    font-size: 10px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 3px;
+  }
+
+  .info-value {
+    font-size: 13px;
+    color: #e0e0e0;
+    font-weight: 500;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #1a1a30;
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 1px;
+  }
+
+  .footer span { color: #f0c040; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="server-name"><span>Bright</span> RP</div>
+  <div class="tagline">Downtown Roleplay Server</div>
+  <div class="owner-badge">Owner: John John</div>
+</div>
+
+<div class="content">
+
+  <div class="welcome-box">
+    Welcome to <strong>Bright RP</strong> — a serious and immersive DarkRP experience set in Downtown. Please read all rules carefully before playing. <strong>Ignorance of the rules is not an excuse.</strong> By connecting to our server you agree to abide by all rules listed here. Have fun and respect everyone!
+  </div>
+
+  <div class="sections">
+
+    <div class="section full-width">
+      <div class="section-header">
+        <div class="section-icon icon-red">!</div>
+        <div class="section-title">General Rules</div>
+      </div>
+      <div class="section-body">
+        <div class="rule"><div class="rule-num">01</div><div class="rule-text"><strong>No RDM (Random Deathmatch)</strong> — Do not kill players without a valid in-character reason. All kills must be justified by roleplay. <span class="punishment p-ban">Ban</span></div></div>
+        <div class="rule"><div class="rule-num">02</div><div class="rule-text"><strong>No Propkill / Prop Surfing / Prop Push</strong> — Using props to harm, move, or gain unfair advantages is strictly prohibited. <span class="punishment p-ban">Ban</span></div></div>
+        <div class="rule"><div class="rule-num">03</div><div class="rule-text"><strong>No Hate Speech or Harassment</strong> — Racism, sexism, homophobia or targeted harassment of any player will result in an immediate permanent ban. <span class="punishment p-perm">Perm Ban</span></div></div>
+        <div class="rule"><div class="rule-num">04</div><div class="rule-text"><strong>No Cheating or Exploiting</strong> — Hacks, scripts, map exploits, or bug abuse of any kind is permanently bannable. <span class="punishment p-perm">Perm Ban</span></div></div>
+        <div class="rule"><div class="rule-num">05</div><div class="rule-text"><strong>No Spam</strong> — Do not spam chat, voice, adverts or admin calls. <span class="punishment p-kick">Kick</span></div></div>
+        <div class="rule"><div class="rule-num">06</div><div class="rule-text"><strong>Respect all players and staff</strong> — Toxicity, trolling, and disrespecting admins will not be tolerated. <span class="punishment p-warn">Warn</span></div></div>
+        <div class="rule"><div class="rule-num">07</div><div class="rule-text"><strong>No OOC toxicity</strong> — Keep out-of-character chat civil. No arguing, flaming or drama in OOC. <span class="punishment p-warn">Warn</span></div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-gold">RP</div>
+        <div class="section-title">Roleplay Rules</div>
+      </div>
+      <div class="section-body">
+        <div class="rule"><div class="rule-num">01</div><div class="rule-text"><strong>NLR (New Life Rule)</strong> — When you die you forget everything from your past life. Do not return to your death location for 3 minutes.</div></div>
+        <div class="rule"><div class="rule-num">02</div><div class="rule-text"><strong>FearRP</strong> — If a gun is pointed at you at close range and you are unarmed, you must comply.</div></div>
+        <div class="rule"><div class="rule-num">03</div><div class="rule-text"><strong>No Metagaming</strong> — Do not use out-of-character information in-character (e.g. using player names above heads to target players).</div></div>
+        <div class="rule"><div class="rule-num">04</div><div class="rule-text"><strong>Stay in character</strong> — Maintain your RP role at all times unless an admin asks you to go OOC.</div></div>
+        <div class="rule"><div class="rule-num">05</div><div class="rule-text"><strong>No FailRP</strong> — Do not act in a way that makes no sense for your character or the roleplay scenario.</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-blue">B</div>
+        <div class="section-title">Building Rules</div>
+      </div>
+      <div class="section-body">
+        <div class="rule"><div class="rule-num">01</div><div class="rule-text"><strong>Building sign required</strong> — Place a sign when building. You may not be raided while it is up and must remove it when done.</div></div>
+        <div class="rule"><div class="rule-num">02</div><div class="rule-text"><strong>No sky bases</strong> — Bases must be built on the ground in owned properties only.</div></div>
+        <div class="rule"><div class="rule-num">03</div><div class="rule-text"><strong>No one-way props</strong> — Shooting through materials you cannot see through is not allowed.</div></div>
+        <div class="rule"><div class="rule-num">04</div><div class="rule-text"><strong>Fading doors</strong> — Maximum 2 fading doors per base entrance. Must be openable by keypad or button.</div></div>
+        <div class="rule"><div class="rule-num">05</div><div class="rule-text"><strong>No blocking public areas</strong> — Do not block roads, spawn, PD, or any public building with props.</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-orange">$$</div>
+        <div class="section-title">Raiding Rules</div>
+      </div>
+      <div class="section-body">
+        <div class="rule"><div class="rule-num">01</div><div class="rule-text"><strong>Raid cooldown</strong> — You may not raid the same base more than once every 20 minutes.</div></div>
+        <div class="rule"><div class="rule-num">02</div><div class="rule-text"><strong>Raid timer</strong> — Raids must end within 10 minutes of starting.</div></div>
+        <div class="rule"><div class="rule-num">03</div><div class="rule-text"><strong>No raiding while building</strong> — Respect the building sign. Do not raid bases displaying one.</div></div>
+        <div class="rule"><div class="rule-num">04</div><div class="rule-text"><strong>Advert required</strong> — You must /advert Raid before beginning. No advert = RDM.</div></div>
+        <div class="rule"><div class="rule-num">05</div><div class="rule-text"><strong>No camping</strong> — Do not camp inside or outside a base after a raid has ended.</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-purple">CP</div>
+        <div class="section-title">Civil Protection Rules</div>
+      </div>
+      <div class="section-body">
+        <div class="rule"><div class="rule-num">01</div><div class="rule-text"><strong>No corrupt CP</strong> — Civil Protection must uphold the law at all times and cannot be bribed.</div></div>
+        <div class="rule"><div class="rule-num">02</div><div class="rule-text"><strong>Warrant required</strong> — You must have a valid reason and warrant to raid/search a property.</div></div>
+        <div class="rule"><div class="rule-num">03</div><div class="rule-text"><strong>No abusing arrest</strong> — Do not arrest players without a valid reason. RDA is punishable.</div></div>
+        <div class="rule"><div class="rule-num">04</div><div class="rule-text"><strong>No PD camping</strong> — Civil Protection must actively patrol and RP, not sit in spawn.</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-green">i</div>
+        <div class="section-title">Server Info</div>
+      </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">Map</div>
+          <div class="info-value">rp_downtown_v4c_v2</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Gamemode</div>
+          <div class="info-value">DarkRP</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Max Players</div>
+          <div class="info-value">32 Slots</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Owner</div>
+          <div class="info-value">John John</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Admin System</div>
+          <div class="info-value">ULX / ULib</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Report Admins</div>
+          <div class="info-value">@ in chat</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  &copy; 2025 <span>Bright RP</span> &mdash; All rights reserved &mdash; By playing you agree to all rules above
+</div>
+
+</body>
+</html>
